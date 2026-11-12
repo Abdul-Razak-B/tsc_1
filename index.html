@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Specialist Circle | Elite Directory of Distinguished Experts</title>
+    <!-- Favicon: Luxury Gold Crest SVG -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230a0a0a'/><circle cx='50' cy='50' r='40' fill='none' stroke='%23d4af37' stroke-width='4'/><text x='50' y='64' font-family='serif' font-size='42' font-weight='bold' fill='%23d4af37' text-anchor='middle'>SC</text></svg>">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cormorant Garamond, Playfair Display & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        obsidian: '#0a0a0a',
+                        charcoal: '#121212',
+                        carddark: '#161616',
+                        gold: {
+                            DEFAULT: '#d4af37',
+                            light: '#f3e5ab',
+                            dark: '#aa8c2c',
+                            muted: '#9a8135'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        display: ['"Playfair Display"', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'gold-glow': '0 0 25px rgba(212, 175, 55, 0.25)',
+                        'gold-glow-lg': '0 0 50px rgba(212, 175, 55, 0.4)',
+                        'card-luxury': '0 10px 30px -10px rgba(0,0,0,0.8), inset 0 1px 0 0 rgba(212, 175, 55, 0.15)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Luxury Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a2a2a;
+            border-radius: 4px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d4af37;
+        }
+
+        /* Custom Animations */
+        @keyframes magnify {
+            0% { transform: scale(0.85); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes expandIn {
+            0% { width: 0%; opacity: 0; }
+            100% { width: 100%; opacity: 1; }
+        }
+        @keyframes peekIn {
+            0% { transform: translateY(50px) scale(0.95); opacity: 0; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        @keyframes floatGold {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+        }
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.08); }
+        }
+
+        .animate-magnify {
+            animation: magnify 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .animate-peek {
+            animation: peekIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .floating-element {
+            animation: floatGold 6s ease-in-out infinite;
+        }
+        .glow-orb {
+            animation: pulseGlow 8s ease-in-out infinite;
+        }
+
+        /* Gradient Text Helper */
+        .text-gold-gradient {
+            background: linear-gradient(135deg, #f3e5ab 0%, #d4af37 50%, #aa8c2c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .gold-border-glow {
+            position: relative;
+        }
+        .gold-border-glow::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: linear-gradient(135deg, #d4af37, transparent, #d4af37);
+            border-radius: inherit;
+            z-index: -1;
+            opacity: 0.3;
+            transition: opacity 0.3s ease;
+        }
+        .gold-border-glow:hover::after {
+            opacity: 0.8;
+        }
+
+        /* Custom Cursor */
+        .custom-cursor {
+            pointer-events: none;
+            position: fixed;
+            width: 32px;
+            height: 32px;
+            border: 1px solid rgba(212, 175, 55, 0.6);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+            z-index: 9999;
+            display: none;
+        }
+        @media (min-width: 1024px) {
+            .custom-cursor { display: block; }
+            body { cursor: default; }
+            a, button, input { cursor: pointer; }
+        }
+
+        body {
+            background-color: #0c0c0c;
+            color: #e5e5e5;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+<body class="bg-obsidian text-gray-200 antialiased selection:bg-gold selection:text-black">
+
+    <!-- Custom Cursor Effect -->
+    <div id="cursor" class="custom-cursor"></div>
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-gradient-to-r from-charcoal via-[#1a1810] to-charcoal border-b border-gold/20 text-xs py-2 px-4 text-center tracking-widest text-gold-light uppercase font-sans">
+        <i class="fa-solid fa-crown text-gold mr-2"></i> Invitation-Only Elite Directory &nbsp;|&nbsp; Season 2026/2027 Roster &nbsp;|&nbsp; <a href="#directory" class="underline hover:text-white transition">Explore Fellows</a>
+    </div>
+
+    <!-- Navigation Header -->
+    <header id="navbar" class="sticky top-0 z-50 transition-all duration-300 bg-obsidian/90 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 rounded-full border border-gold/50 flex items-center justify-center bg-charcoal group-hover:border-gold transition shadow-gold-glow">
+                    <span class="text-gold font-serif font-bold text-xl">SC</span>
+                </div>
+                <div>
+                    <span class="font-serif text-xl md:text-2xl tracking-wider text-white block leading-none">THE SPECIALIST CIRCLE</span>
+                    <span class="text-[10px] tracking-[0.25em] text-gold uppercase block mt-1">Distinguished Experts Roster</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden lg:flex items-center space-x-8 text-sm tracking-wider uppercase font-medium">
+                <a href="#hero" class="text-gold hover:text-gold-light transition">Home</a>
+                <a href="#directory" class="text-gray-300 hover:text-gold transition">The Directory</a>
+                <a href="#about" class="text-gray-300 hover:text-gold transition">The Council</a>
+                <a href="#admission" class="text-gray-300 hover:text-gold transition">Nomination</a>
+                <a href="#contact" class="text-gray-300 hover:text-gold transition">Inquiries</a>
+            </nav>
+
+            <!-- Header CTA & Mobile Menu Toggle -->
+            <div class="flex items-center space-x-4">
+                <a href="#directory" class="hidden sm:inline-block px-5 py-2.5 rounded-full border border-gold/50 text-gold text-xs uppercase tracking-widest hover:bg-gold hover:text-black transition duration-300 font-semibold shadow-gold-glow">
+                    View Fellows
+                </a>
+                <button id="mobile-menu-btn" class="lg:hidden text-gold text-2xl p-2 focus:outline-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Slide-In Menu -->
+    <div id="mobile-menu" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl transform translate-x-full transition-transform duration-500 ease-in-out lg:hidden flex flex-col">
+        <div class="flex items-center justify-between p-6 border-b border-white/10">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-full border border-gold/50 flex items-center justify-center bg-charcoal">
+                    <span class="text-gold font-serif text-lg">SC</span>
+                </div>
+                <span class="font-serif text-lg tracking-wider text-white">THE SPECIALIST CIRCLE</span>
+            </div>
+            <button id="mobile-menu-close" class="text-gold text-2xl p-2">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="flex flex-col justify-center items-center space-y-8 p-8 my-auto text-center tracking-widest uppercase text-lg">
+            <a href="#hero" class="mobile-link text-gold hover:text-white transition">Home</a>
+            <a href="#directory" class="mobile-link text-gray-300 hover:text-gold transition">The Directory</a>
+            <a href="#about" class="mobile-link text-gray-300 hover:text-gold transition">The Council</a>
+            <a href="#admission" class="mobile-link text-gray-300 hover:text-gold transition">Nomination</a>
+            <a href="#contact" class="mobile-link text-gray-300 hover:text-gold transition">Inquiries</a>
+            <a href="#directory" class="mobile-link px-8 py-3 rounded-full border border-gold text-gold text-sm font-semibold hover:bg-gold hover:text-black transition">
+                Browse Fellows
+            </a>
+        </div>
+        <div class="p-6 text-center text-xs text-gray-500 border-t border-white/10">
+            &copy; 2026 The Specialist Circle. All Rights Reserved.
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative min-h-[90vh] flex items-center justify-center overflow-hidden py-24 px-6">
+        <!-- Ambient Glow Backgrounds -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold/10 rounded-full blur-[120px] glow-orb pointer-events-none"></div>
+        <div class="absolute bottom-10 right-10 w-96 h-96 bg-amber-600/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <!-- Subtle Grid Pattern Overlay -->
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#1f1f1f_1px,transparent_1px),linear-gradient(to_bottom,#1f1f1f_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-25 pointer-events-none"></div>
+
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            <!-- Badge -->
+            <div class="inline-flex items-center space-x-3 px-4 py-1.5 rounded-full bg-charcoal border border-gold/30 mb-8 shadow-gold-glow animate-peek">
+                <span class="w-2 h-2 rounded-full bg-gold animate-ping"></span>
+                <span class="text-xs uppercase tracking-[0.25em] text-gold font-medium">Global Elite Roster 2026</span>
+            </div>
+
+            <!-- Main Heading -->
+            <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal tracking-tight leading-[1.1] mb-8 text-white">
+                Pioneering Minds. <br>
+                <span class="text-gold-gradient italic font-light">Absolute Mastery.</span>
+            </h1>
+
+            <!-- Subtitle -->
+            <p class="font-sans text-base sm:text-xl text-gray-400 max-w-2xl mx-auto font-light leading-relaxed mb-12">
+                The Specialist Circle is an ultra-exclusive directory curating world-class visionaries, deep-tech architects, and pioneering scientists shaping the frontiers of human capability.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-5">
+                <a href="#directory" class="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-gold-dark via-gold to-gold-light text-black font-semibold text-sm uppercase tracking-widest hover:shadow-gold-lg transition transform hover:-translate-y-0.5 duration-300">
+                    Explore Directory <i class="fa-solid fa-arrow-right ml-2"></i>
+                </a>
+                <a href="#admission" class="w-full sm:w-auto px-8 py-4 rounded-full border border-white/20 bg-charcoal/50 backdrop-blur text-white font-medium text-sm uppercase tracking-widest hover:border-gold hover:text-gold transition duration-300">
+                    Request Fellowship
+                </a>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 pt-12 border-t border-white/10 text-center">
+                <div>
+                    <div class="font-serif text-3xl md:text-4xl text-gold font-bold">120+</div>
+                    <div class="text-xs uppercase tracking-widest text-gray-400 mt-1">Elite Fellows</div>
+                </div>
+                <div>
+                    <div class="font-serif text-3xl md:text-4xl text-gold font-bold">28</div>
+                    <div class="text-xs uppercase tracking-widest text-gray-400 mt-1">Nations Represented</div>
+                </div>
+                <div>
+                    <div class="font-serif text-3xl md:text-4xl text-gold font-bold">$4.8B</div>
+                    <div class="text-xs uppercase tracking-widest text-gray-400 mt-1">Ventures Led</div>
+                </div>
+                <div>
+                    <div class="font-serif text-3xl md:text-4xl text-gold font-bold">1,400+</div>
+                    <div class="text-xs uppercase tracking-widest text-gray-400 mt-1">Patents & Papers</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Directory Section -->
+    <section id="directory" class="py-24 px-6 relative bg-[#0e0e0e]">
+        <div class="max-w-7xl mx-auto">
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-20">
+                <span class="text-xs uppercase tracking-[0.3em] text-gold font-medium block mb-3">Curated Roster</span>
+                <h2 class="font-serif text-3xl sm:text-5xl text-white font-normal mb-6">Distinguished Specialists</h2>
+                <div class="w-24 h-[1px] bg-gold/50 mx-auto mb-6"></div>
+                <p class="text-gray-400 font-light text-sm sm:text-base leading-relaxed">
+                    Select any elite professional below to inspect their verified credentials, career milestones, proprietary research, and direct advisory availability.
+                </p>
+
+                <!-- Filter Tags -->
+                <div class="flex flex-wrap items-center justify-center gap-2 mt-8">
+                    <button class="px-4 py-1.5 rounded-full text-xs tracking-wider uppercase bg-gold text-black font-semibold transition">All Disciplines</button>
+                    <button class="px-4 py-1.5 rounded-full text-xs tracking-wider uppercase bg-charcoal border border-white/10 text-gray-300 hover:border-gold hover:text-gold transition">AI & Quantum</button>
+                    <button class="px-4 py-1.5 rounded-full text-xs tracking-wider uppercase bg-charcoal border border-white/10 text-gray-300 hover:border-gold hover:text-gold transition">FinTech & Systems</button>
+                    <button class="px-4 py-1.5 rounded-full text-xs tracking-wider uppercase bg-charcoal border border-white/10 text-gray-300 hover:border-gold hover:text-gold transition">Bio-Informatics</button>
+                </div>
+            </div>
+
+            <!-- Profile Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+                <!-- Card 1: Abdul Razak Bhutto (Lead Specialist Profile Card) -->
+                <div class="bg-[#121212] border border-gold/40 rounded-2xl p-8 flex flex-col justify-between relative group hover:border-gold transition-all duration-500 shadow-card-luxury">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-gold/15 to-transparent rounded-tr-2xl pointer-events-none"></div>
+                    <div>
+                        <!-- Header / Avatar & Discipline -->
+                        <div class="flex items-start justify-between mb-6">
+                            <div class="relative">
+                                <div class="w-16 h-16 rounded-xl overflow-hidden border border-gold/50 shadow-gold-glow">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=250" alt="Abdul Razak Bhutto" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://placehold.co/150x150/161616/d4af37?text=ARB'">
+                                </div>
+                                <span class="absolute -bottom-1 -right-1 w-5 h-5 bg-gold text-black rounded-full text-[10px] flex items-center justify-center font-bold" title="Verified Lead Fellow">
+                                    <i class="fa-solid fa-check"></i>
+                                </span>
+                            </div>
+                            <span class="px-3 py-1 rounded-full bg-gold/10 text-gold text-[11px] uppercase tracking-wider font-mono border border-gold/20">
+                                AI & Systems
+                            </span>
+                        </div>
+                        
+                        <!-- Name & Title -->
+                        <h3 class="font-serif text-2xl text-white font-medium mb-1 group-hover:text-gold transition">Abdul Razak Bhutto</h3>
+                        <p class="text-xs uppercase tracking-widest text-gold-light mb-4 font-sans">Computer Science Lecturer & MPhil Researcher</p>
+                        
+                        <!-- Bio snippet -->
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6 font-light">
+                            Computer Science Lecturer & MPhil Researcher at IBA Public School Sukkur, specializing in Artificial Intelligence, DeepLNet, Cloud Computing, and Web Architectures.
+                        </p>
+
+                        <!-- Key Metrics -->
+                        <div class="grid grid-cols-2 gap-3 py-4 border-t border-b border-white/10 mb-6 text-xs">
+                            <div>
+                                <span class="text-gray-500 block uppercase tracking-wider text-[10px]">Affiliation</span>
+                                <span class="text-white font-semibold">IBA Public School</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500 block uppercase tracking-wider text-[10px]">Research Focus</span>
+                                <span class="text-white font-semibold">DeepLNet / AI</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Button -->
+                    <button onclick="openResumeModal('abdul_razak')" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-gold-dark via-gold to-gold-light text-black text-xs uppercase tracking-widest font-bold hover:shadow-gold-lg transition-all duration-300 flex items-center justify-center space-x-2">
+                        <span>View Resume</span>
+                        <i class="fa-solid fa-file-lines"></i>
+                    </button>
+                </div>
+
+                <!-- Card 2: Random Elite Specialist (Dr. Alistair Vance) -->
+                <div class="bg-[#121212] border border-white/10 rounded-2xl p-8 flex flex-col justify-between relative group hover:border-gold/50 transition-all duration-500 shadow-xl">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-gold/10 to-transparent rounded-tr-2xl pointer-events-none"></div>
+                    <div>
+                        <!-- Header / Avatar & Discipline -->
+                        <div class="flex items-start justify-between mb-6">
+                            <div class="relative">
+                                <div class="w-16 h-16 rounded-xl overflow-hidden border border-gold/40 shadow-gold-glow">
+                                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=250" alt="Dr. Alistair Vance" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://placehold.co/150x150/161616/d4af37?text=AV'">
+                                </div>
+                                <span class="absolute -bottom-1 -right-1 w-5 h-5 bg-gold text-black rounded-full text-[10px] flex items-center justify-center font-bold" title="Verified Fellow">
+                                    <i class="fa-solid fa-check"></i>
+                                </span>
+                            </div>
+                            <span class="px-3 py-1 rounded-full bg-gold/10 text-gold text-[11px] uppercase tracking-wider font-mono border border-gold/20">
+                                AI Research
+                            </span>
+                        </div>
+                        
+                        <!-- Name & Title -->
+                        <h3 class="font-serif text-2xl text-white font-medium mb-1 group-hover:text-gold transition">Dr. Alistair Vance</h3>
+                        <p class="text-xs uppercase tracking-widest text-gold-light mb-4 font-sans">Principal AI Research Scientist</p>
+                        
+                        <!-- Bio snippet -->
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6 font-light">
+                            Former DeepMind Lead & Stanford AI Fellow specializing in neural architecture search, autonomous reasoning systems, and alignment.
+                        </p>
+
+                        <!-- Key Metrics -->
+                        <div class="grid grid-cols-2 gap-3 py-4 border-t border-b border-white/10 mb-6 text-xs">
+                            <div>
+                                <span class="text-gray-500 block uppercase tracking-wider text-[10px]">Experience</span>
+                                <span class="text-white font-semibold">14+ Years</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500 block uppercase tracking-wider text-[10px]">Citations</span>
+                                <span class="text-white font-semibold">24,500+</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Button -->
+                    <button onclick="openResumeModal('alistair')" class="w-full py-3.5 rounded-xl bg-charcoal border border-gold/40 text-gold text-xs uppercase tracking-widest font-semibold hover:bg-gold hover:text-black transition-all duration-300 flex items-center justify-center space-x-2 group-hover:shadow-gold-glow">
+                        <span>View Resume</span>
+                        <i class="fa-solid fa-file-lines"></i>
+                    </button>
+                </div>
+
+                <!-- Card 3: Random Elite Specialist (Dr. Siobhan Thorne) -->
+                <div class="bg-[#141414]/80 backdrop-blur-md border border-gold/30 rounded-2xl p-8 flex flex-col justify-between relative group hover:border-gold transition-all duration-500 shadow-card-luxury">
+                    <div class="absolute -top-px left-1/4 right-1/4 h-[2px] bg-gradient-to-r from-transparent via-gold to-transparent"></div>
+                    <div>
+                        <!-- Header -->
+                        <div class="flex items-start justify-between mb-6">
+                            <div class="relative">
+                                <div class="w-16 h-16 rounded-xl overflow-hidden border border-gold/40 shadow-gold-glow">
+                                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=250" alt="Dr. Siobhan Thorne" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://placehold.co/150x150/161616/d4af37?text=ST'">
+                                </div>
+                                <span class="absolute -bottom-1 -right-1 w-5 h-5 bg-gold text-black rounded-full text-[10px] flex items-center justify-center font-bold" title="Verified Fellow">
+                                    <i class="fa-solid fa-check"></i>
+                                </span>
+                            </div>
+                            <span class="px-3 py-1 rounded-full bg-gold/10 text-gold text-[11px] uppercase tracking-wider font-mono border border-gold/20">
+                                Quantum Security
+                            </span>
+                        </div>
+                        
+                        <!-- Name & Title -->
+                        <h3 class="font-serif text-2xl text-white font-medium mb-1 group-hover:text-gold transition">Dr. Siobhan Thorne</h3>
+                        <p class="text-xs uppercase tracking-widest text-gold-light mb-4 font-sans">Lead Quantum Cryptographer</p>
+                        
+                        <!-- Bio snippet -->
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6 font-light">
+                            Pioneering post-quantum lattice-based encryption algorithms for sovereign defense networks and next-gen financial institutions.
+                        </p>
+
+                        <!-- Key Metrics -->
+                        <div class="grid grid-cols-2 gap-3 py-4 border-t border-b border-white/10 mb-6 text-xs">
+                            <div>
+                                <span class="text-gray-500 block uppercase tracking-wider text-[10px]">Patents</span>
+                                <span class="text-white font-semibold">18 Granted</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500 block uppercase tracking-wider text-[10px]">Advisory</span>
+                                <span class="text-white font-semibold">NATO / G7</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Button -->
+                    <button onclick="openResumeModal('siobhan')" class="w-full py-3.5 rounded-xl bg-charcoal border border-gold/40 text-gold text-xs uppercase tracking-widest font-semibold hover:bg-gold hover:text-black transition-all duration-300 flex items-center justify-center space-x-2 group-hover:shadow-gold-glow">
+                        <span>View Resume</span>
+                        <i class="fa-solid fa-file-lines"></i>
+                    </button>
+                </div>
+
+                <!-- Card 4: Random Elite Specialist (Dr. Elena Rostova) -->
+                <div class="bg-[#121212] border border-white/10 rounded-2xl p-8 flex flex-col justify-between relative group hover:border-gold/50 transition-all duration-500 shadow-xl">
+                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(212,175,55,0.08),transparent_70%)] pointer-events-none rounded-2xl"></div>
+                    <div>
+                        <!-- Header -->
+                        <div class="flex items-start justify-between mb-6">
+                            <div class="relative">
+                                <div class="w-16 h-16 rounded-xl overflow-hidden border border-gold/40 shadow-gold-glow">
+                                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=250" alt="Dr. Elena Rostova" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://placehold.co/150x150/161616/d4af37?text=ER'">
+                                </div>
+                                <span class="absolute -bottom-1 -right-1 w-5 h-5 bg-gold text-black rounded-full text-[10px] flex items-center justify-center font-bold" title="Verified Fellow">
+                                    <i class="fa-solid fa-check"></i>
+                                </span>
+                            </div>
+                            <span class="px-3 py-1 rounded-full bg-gold/10 text-gold text-[11px] uppercase tracking-wider font-mono border border-gold/20">
+                                Autonomous Systems
+                            </span>
+                        </div>
+                        
+                        <!-- Name & Title -->
+                        <h3 class="font-serif text-2xl text-white font-medium mb-1 group-hover:text-gold transition">Dr. Elena Rostova</h3>
+                        <p class="text-xs uppercase tracking-widest text-gold-light mb-4 font-sans">Autonomous Systems Lead</p>
+                        
+                        <!-- Bio snippet -->
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6 font-light">
+                            Directing swarm robotics and real-time computer vision frameworks for deep space exploration and high-altitude aerospace navigation.
+                        </p>
+
+                        <!-- Key Metrics -->
+                        <div class="grid grid-cols-2 gap-3 py-4 border-t border-b border-white/10 mb-6 text-xs">
+                            <div>
+                                <span class="text-gray-500 block uppercase tracking-wider text-[10px]">Missions</span>
+                                <span class="text-white font-semibold">4 Orbital Payloads</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500 block uppercase tracking-wider text-[10px]">Team Led</span>
+                                <span class="text-white font-semibold">120+ Engineers</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Button -->
+                    <button onclick="openResumeModal('elena')" class="w-full py-3.5 rounded-xl bg-charcoal border border-gold/40 text-gold text-xs uppercase tracking-widest font-semibold hover:bg-gold hover:text-black transition-all duration-300 flex items-center justify-center space-x-2 group-hover:shadow-gold-glow">
+                        <span>View Resume</span>
+                        <i class="fa-solid fa-file-lines"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- About / Council Section -->
+    <section id="about" class="py-24 px-6 border-t border-white/10 bg-obsidian">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+                <span class="text-xs uppercase tracking-[0.3em] text-gold font-medium block mb-3">Vetting & Governance</span>
+                <h2 class="font-serif text-3xl sm:text-5xl text-white font-normal mb-6">The Selection Council Standards</h2>
+                <div class="w-20 h-[1px] bg-gold/50 mb-6"></div>
+                <p class="text-gray-300 font-light text-base leading-relaxed mb-6">
+                    Membership in The Specialist Circle is strictly meritocratic and strictly confidential. Candidates undergo a rigorous four-stage vetting process supervised by our rotating Council of Laureates.
+                </p>
+                <ul class="space-y-4 font-light text-sm text-gray-400 mb-8">
+                    <li class="flex items-start space-x-3">
+                        <i class="fa-solid fa-circle-check text-gold mt-1"></i>
+                        <span><strong class="text-white font-medium">Peer Review:</strong> Minimum 3 endorsements from existing Circle Fellows.</span>
+                    </li>
+                    <li class="flex items-start space-x-3">
+                        <i class="fa-solid fa-circle-check text-gold mt-1"></i>
+                        <span><strong class="text-white font-medium">Impact Verification:</strong> Documented proof of breakthrough contribution in deep-tech, science, or high-finance.</span>
+                    </li>
+                    <li class="flex items-start space-x-3">
+                        <i class="fa-solid fa-circle-check text-gold mt-1"></i>
+                        <span><strong class="text-white font-medium">Confidentiality:</strong> Uncompromising ethical integrity and non-disclosure compliance.</span>
+                    </li>
+                </ul>
+                <a href="#admission" class="inline-flex items-center space-x-2 text-gold text-xs uppercase tracking-widest font-semibold hover:text-white transition">
+                    <span>Submit Candidate Dossier</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="relative">
+                <div class="absolute -inset-4 bg-gradient-to-r from-gold/20 to-transparent rounded-3xl blur-xl opacity-50"></div>
+                <div class="relative bg-charcoal border border-gold/30 rounded-2xl p-8 sm:p-10 shadow-card-luxury">
+                    <span class="font-serif text-6xl text-gold/30 block mb-2">&ldquo;</span>
+                    <p class="font-serif italic text-xl text-gray-200 mb-6 leading-relaxed">
+                        We do not merely catalogue professionals; we assemble the intellectual vanguard capable of navigating the complex crises and technological quantum leaps of our century.
+                    </p>
+                    <div class="flex items-center space-x-4 pt-6 border-t border-white/10">
+                        <div class="w-12 h-12 rounded-full bg-gold/20 border border-gold/40 flex items-center justify-center text-gold font-serif font-bold text-lg">
+                            VC
+                        </div>
+                        <div>
+                            <div class="text-white font-medium">Lord V. Chancellor</div>
+                            <div class="text-xs text-gold uppercase tracking-widest">Chairman, Admission Committee</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admission Request Section -->
+    <section id="admission" class="py-24 px-6 bg-[#0e0e0e] border-t border-white/15">
+        <div class="max-w-4xl mx-auto text-center">
+            <span class="text-xs uppercase tracking-[0.3em] text-gold font-medium block mb-3">Confidential Channel</span>
+            <h2 class="font-serif text-3xl sm:text-5xl text-white font-normal mb-6">Request Fellowship or Advisory Engagement</h2>
+            <div class="w-24 h-[1px] bg-gold/50 mx-auto mb-6"></div>
+            <p class="text-gray-400 font-light text-sm sm:text-base leading-relaxed mb-12">
+                Whether you wish to nominate a distinguished colleague or retain one of our Circle Fellows for private executive advisory, submit your credentials below.
+            </p>
+
+            <form onsubmit="handleFormSubmit(event)" class="bg-charcoal border border-gold/30 rounded-3xl p-8 sm:p-12 text-left shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-gold mb-2 font-medium">Full Name *</label>
+                        <input type="text" required placeholder="Lord / Dr. / Mr. Full Name" class="w-full bg-obsidian border border-white/20 rounded-xl px-4 py-3.5 text-white placeholder-gray-600 focus:border-gold focus:outline-none transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-gold mb-2 font-medium">Professional Email *</label>
+                        <input type="email" required placeholder="executive@enterprise.com" class="w-full bg-obsidian border border-white/20 rounded-xl px-4 py-3.5 text-white placeholder-gray-600 focus:border-gold focus:outline-none transition">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-gold mb-2 font-medium">Inquiry Nature *</label>
+                        <select class="w-full bg-obsidian border border-white/20 rounded-xl px-4 py-3.5 text-white focus:border-gold focus:outline-none transition">
+                            <option>Retain Specialist for Advisory</option>
+                            <option>Nominate Candidate for Fellowship</option>
+                            <option>Institutional Partnership</option>
+                            <option>Media & Press Inquiry</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-gold mb-2 font-medium">Target Specialist (If Applicable)</label>
+                        <select class="w-full bg-obsidian border border-white/20 rounded-xl px-4 py-3.5 text-white focus:border-gold focus:outline-none transition">
+                            <option value="">General Roster Inquiry</option>
+                            <option value="abdul_razak">Abdul Razak Bhutto (Computer Science Lecturer & MPhil Researcher)</option>
+                            <option value="alistair">Dr. Alistair Vance (AI Research)</option>
+                            <option value="siobhan">Dr. Siobhan Thorne (Quantum)</option>
+                            <option value="elena">Dr. Elena Rostova (Autonomous)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <label class="block text-xs uppercase tracking-widest text-gold mb-2 font-medium">Dossier / Executive Message *</label>
+                    <textarea rows="4" required placeholder="Provide brief context regarding your organization, project scope, or nomination credentials..." class="w-full bg-obsidian border border-white/20 rounded-xl px-4 py-3.5 text-white placeholder-gray-600 focus:border-gold focus:outline-none transition"></textarea>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="px-10 py-4 rounded-full bg-gradient-to-r from-gold-dark via-gold to-gold-light text-black font-bold text-sm uppercase tracking-widest hover:shadow-gold-lg transition duration-300">
+                        Transmit Confidential Dossier <i class="fa-solid fa-lock ml-2"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- HUGE Luxury Footer Section -->
+    <footer id="contact" class="bg-[#080808] border-t border-white/10 pt-20 pb-12 px-6 text-gray-400 text-sm">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
+            <!-- Column 1: Brand & Bio -->
+            <div class="lg:col-span-2">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="w-10 h-10 rounded-full border border-gold/50 flex items-center justify-center bg-charcoal">
+                        <span class="text-gold font-serif font-bold text-xl">SC</span>
+                    </div>
+                    <div>
+                        <span class="font-serif text-xl tracking-wider text-white block leading-none">THE SPECIALIST CIRCLE</span>
+                        <span class="text-[9px] tracking-[0.25em] text-gold uppercase block mt-1">Elite Directory</span>
+                    </div>
+                </div>
+                <p class="font-light text-gray-400 leading-relaxed mb-6 max-w-sm">
+                    The preeminent private registry connecting sovereign governments, elite venture funds, and Fortune 100 enterprises with verified world-class domain specialists.
+                </p>
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="w-10 h-10 rounded-full bg-charcoal border border-white/10 flex items-center justify-center text-gold hover:border-gold hover:bg-gold hover:text-black transition duration-300"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-charcoal border border-white/10 flex items-center justify-center text-gold hover:border-gold hover:bg-gold hover:text-black transition duration-300"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-charcoal border border-white/10 flex items-center justify-center text-gold hover:border-gold hover:bg-gold hover:text-black transition duration-300"><i class="fa-solid fa-terminal"></i></a>
+                </div>
+            </div>
+
+            <!-- Column 2: Quick Links -->
+            <div>
+                <h4 class="font-serif text-white text-lg mb-6 tracking-wide">Navigation</h4>
+                <ul class="space-y-3 font-light text-xs uppercase tracking-widest">
+                    <li><a href="#hero" class="hover:text-gold transition">Home Directory</a></li>
+                    <li><a href="#directory" class="hover:text-gold transition">Distinguished Fellows</a></li>
+                    <li><a href="#about" class="hover:text-gold transition">Council Standards</a></li>
+                    <li><a href="#admission" class="hover:text-gold transition">Nomination Portal</a></li>
+                    <li><a href="#contact" class="hover:text-gold transition">Secure Inquiries</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Disciplines -->
+            <div>
+                <h4 class="font-serif text-white text-lg mb-6 tracking-wide">Specialties</h4>
+                <ul class="space-y-3 font-light text-xs uppercase tracking-widest">
+                    <li><span class="text-gray-500">AI & Deep Learning</span></li>
+                    <li><span class="text-gray-500">Quantum Cryptography</span></li>
+                    <li><span class="text-gray-500">FinTech Architecture</span></li>
+                    <li><span class="text-gray-500">Autonomous Robotics</span></li>
+                    <li><span class="text-gray-500">Bio-Informatics & Genomics</span></li>
+                    <li><span class="text-gray-500">Neuro-Technology</span></li>
+                </ul>
+            </div>
+
+            <!-- Column 4: Newsletter / Bulletin -->
+            <div>
+                <h4 class="font-serif text-white text-lg mb-6 tracking-wide">Private Bulletin</h4>
+                <p class="text-xs text-gray-400 font-light mb-4">Receive quarterly briefs on breakthrough innovations from our Council Fellows.</p>
+                <form onsubmit="handleNewsletter(event)" class="space-y-3">
+                    <input type="email" required placeholder="Enter private email..." class="w-full bg-obsidian border border-white/20 rounded-xl px-4 py-3 text-xs text-white placeholder-gray-600 focus:border-gold focus:outline-none transition">
+                    <button type="submit" class="w-full py-3 rounded-xl bg-gold text-black font-semibold text-xs uppercase tracking-widest hover:bg-gold-light transition duration-300">
+                        Subscribe
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500">
+            <div>&copy; 2026 The Specialist Circle. All Rights Reserved. Strictly Confidential.</div>
+            <div class="flex space-x-6 mt-4 sm:mt-0">
+                <a href="#" class="hover:text-gold transition">Privacy Policy</a>
+                <a href="#" class="hover:text-gold transition">Terms of Fellowship</a>
+                <a href="#" class="hover:text-gold transition">Security Disclosure</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE RESUME POPUP MODAL -->
+    <div id="resume-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+        <!-- Modal Dialog Box -->
+        <div id="modal-dialog" class="bg-[#121212] border border-gold/40 rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl transform scale-95 transition-transform duration-300 relative">
+            
+            <!-- Close Button -->
+            <button onclick="closeResumeModal()" class="absolute top-6 right-6 w-10 h-10 rounded-full bg-charcoal border border-white/20 text-gold flex items-center justify-center hover:bg-gold hover:text-black transition z-20">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <!-- Dynamic Modal Content injected via JS -->
+            <div id="modal-body" class="p-8 sm:p-12">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast Message Box -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-charcoal border border-gold text-white px-6 py-4 rounded-2xl shadow-2xl transform translate-y-32 opacity-0 transition-all duration-300 flex items-center space-x-3">
+        <i class="fa-solid fa-circle-check text-gold text-xl"></i>
+        <div>
+            <div id="toast-title" class="font-semibold text-sm text-gold">Transmission Successful</div>
+            <div id="toast-desc" class="text-xs text-gray-400">Your inquiry has been encrypted and dispatched to the Council.</div>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Custom Cursor Movement
+        const cursor = document.getElementById('cursor');
+        window.addEventListener('mousemove', (e) => {
+            cursor.style.display = 'block';
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('translate-x-full');
+        });
+        mobileMenuClose.addEventListener('click', () => {
+            mobileMenu.classList.add('translate-x-full');
+        });
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('translate-x-full');
+            });
+        });
+
+        // Comprehensive Specialist Resume Database
+        const specialistData = {
+            abdul_razak: {
+                name: "Abdul Razak Bhutto",
+                title: "Computer Science Lecturer & MPhil Researcher",
+                discipline: "Artificial Intelligence & Web Architectures",
+                avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300",
+                location: "Sukkur, Pakistan",
+                clearance: "Level-5 Academic & Research Advisory",
+                summary: "Dedicated Computer Science Lecturer and MPhil Researcher at IBA Public School Sukkur with profound expertise in Artificial Intelligence, DeepLNet, Cloud Computing, and modern Web Architectures. Committed to advancing academic research and mentoring the next generation of tech innovators.",
+                experience: [
+                    { role: "Computer Science Lecturer & MPhil Researcher", org: "IBA Public School Sukkur", period: "2021 - Present", desc: "Conducting advanced MPhil research in DeepLNet and AI models while instructing undergraduate and secondary students in core computer science, data structures, and web development." },
+                    { role: "Software & Systems Architecture Consultant", org: "Independent Technology Advisory", period: "2018 - 2021", desc: "Designed scalable cloud-native web architectures and optimized backend performance for enterprise clients." }
+                ],
+                expertise: ["Artificial Intelligence", "DeepLNet", "Cloud Computing", "Web Architectures", "Data Structures & Algorithms", "Python & JavaScript"],
+                publications: [
+                    "Bhutto, A. R. et al. (2025). 'Optimizing Neural Network Efficiency in Distributed Cloud Environments'. Journal of Computing & AI.",
+                    "Bhutto, A. R. (2024). 'Modern Web Paradigms and Scalable Cloud Architectures for Academic Institutions'."
+                ],
+                contact: "abdul.razak@specialistcircle.org"
+            },
+            alistair: {
+                name: "Dr. Alistair Vance",
+                title: "Principal AI Research Scientist",
+                discipline: "Artificial Intelligence & Neural Architecture",
+                avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300",
+                location: "San Francisco / London",
+                clearance: "Level-5 Sovereign Advisory",
+                summary: "Distinguished AI researcher with over 14 years pioneering deep learning architectures, reinforcement learning models, and autonomous alignment protocols.",
+                experience: [
+                    { role: "Principal AI Research Fellow", org: "The Specialist Circle Roster", period: "2023 - Present", desc: "Advising sovereign AI initiatives and Tier-1 frontier labs on next-gen guardrails." },
+                    { role: "Senior Staff Research Scientist", org: "DeepMind / Google AI", period: "2018 - 2023", desc: "Spearheaded neuro-symbolic reasoning projects and large-scale model efficiency algorithms." }
+                ],
+                expertise: ["Neural Architecture Search", "Large Language Alignment", "Reinforcement Learning", "Autonomous Reasoning", "Distributed GPU Clusters"],
+                publications: [
+                    "Vance, A. et al. (2025). 'Zero-Shot Reasoning in Sovereign Neural Grids'. Nature Machine Intelligence."
+                ],
+                contact: "alistair.vance@specialistcircle.org"
+            },
+            siobhan: {
+                name: "Dr. Siobhan Thorne",
+                title: "Lead Quantum Cryptographer",
+                discipline: "Quantum Security & Lattice-Based Encryption",
+                avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=300",
+                location: "Zurich / Geneva",
+                clearance: "NATO / G7 Diplomatic Security",
+                summary: "World-renowned quantum physicist and cryptographer specializing in post-quantum lattice encryption standards, quantum key distribution (QKD), and secure decentralized ledgers.",
+                experience: [
+                    { role: "Lead Quantum Cryptography Advisor", org: "European Quantum Initiative", period: "2021 - Present", desc: "Architecting post-quantum migration frameworks for central banking infrastructures." }
+                ],
+                expertise: ["Lattice-Based Cryptography", "Quantum Key Distribution", "Post-Quantum Migration", "Zero-Knowledge Proofs"],
+                publications: [
+                    "Thorne, S. (2024). 'Resisting Shor's Algorithm in Global Financial Ledgers'."
+                ],
+                contact: "siobhan.thorne@specialistcircle.org"
+            },
+            elena: {
+                name: "Dr. Elena Rostova",
+                title: "Autonomous Systems Lead",
+                discipline: "Swarm Robotics & Computer Vision",
+                avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=300",
+                location: "Boston / Toulouse",
+                clearance: "Aerospace Defense Clearance",
+                summary: "Autonomous systems engineer directing decentralized swarm robotics, real-time spatial mapping, and resilient edge computer vision frameworks for aerospace and orbital payloads.",
+                experience: [
+                    { role: "Director of Autonomous Navigation", org: "Orbital Dynamics Corp", period: "2020 - Present", desc: "Led guidance, navigation, and control (GNC) algorithms for 4 successful orbital satellite missions." }
+                ],
+                expertise: ["Swarm Intelligence", "SLAM & Spatial Mapping", "Computer Vision", "Real-Time RTOS"],
+                publications: [
+                    "Rostova, E. et al. (2024). 'Autonomous Swarm Coordination in GPS-Denied Orbital Environments'."
+                ],
+                contact: "elena.rostova@specialistcircle.org"
+            }
+        };
+
+        // Open Resume Modal Function with Magnify / Peek-In Animation
+        function openResumeModal(id) {
+            const data = specialistData[id];
+            if (!data) return;
+
+            const modalBody = document.getElementById('modal-body');
+            modalBody.innerHTML = `
+                <div class="flex flex-col md:flex-row items-start md:items-center space-y-6 md:space-y-0 md:space-x-8 pb-8 border-b border-white/10">
+                    <img src="${data.avatar}" alt="${data.name}" class="w-28 h-28 rounded-2xl object-cover border-2 border-gold shadow-gold-glow" onerror="this.src='https://placehold.co/150x150/161616/d4af37?text=EX'">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-1">
+                            <span class="px-3 py-1 rounded-full bg-gold/10 text-gold text-xs font-mono uppercase tracking-widest border border-gold/30">${data.discipline}</span>
+                            <span class="text-xs text-gray-400 font-mono"><i class="fa-solid fa-shield-halved text-gold mr-1"></i> ${data.clearance}</span>
+                        </div>
+                        <h2 class="font-serif text-3xl sm:text-4xl text-white font-normal mb-1">${data.name}</h2>
+                        <p class="text-gold-light text-sm tracking-wider uppercase">${data.title} &bull; ${data.location}</p>
+                    </div>
+                </div>
+
+                <div class="py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 space-y-8">
+                        <div>
+                            <h3 class="text-xs uppercase tracking-[0.25em] text-gold font-semibold mb-3">Executive Summary</h3>
+                            <p class="text-gray-300 font-light text-sm sm:text-base leading-relaxed">${data.summary}</p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-xs uppercase tracking-[0.25em] text-gold font-semibold mb-4">Selected Professional Experience</h3>
+                            <div class="space-y-6 border-l border-gold/30 pl-6 ml-2">
+                                ${data.experience.map(exp => `
+                                    <div class="relative">
+                                        <div class="absolute -left-[31px] top-1 w-3 h-3 rounded-full bg-gold border-4 border-obsidian"></div>
+                                        <div class="text-xs text-gold-light font-mono mb-1">${exp.period}</div>
+                                        <h4 class="text-white font-medium text-base">${exp.role}</h4>
+                                        <div class="text-xs text-gray-400 mb-2 font-medium">${exp.org}</div>
+                                        <p class="text-gray-300 text-xs sm:text-sm font-light leading-relaxed">${exp.desc}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-xs uppercase tracking-[0.25em] text-gold font-semibold mb-3">Selected Publications & Patents</h3>
+                            <ul class="space-y-2 text-xs sm:text-sm text-gray-300 font-light">
+                                ${data.publications.map(pub => `<li class="flex items-start space-x-2"><i class="fa-solid fa-book-bookmark text-gold mt-1"></i><span>${pub}</span></li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6 bg-obsidian p-6 rounded-2xl border border-white/10 h-fit">
+                        <div>
+                            <h3 class="text-xs uppercase tracking-[0.25em] text-gold font-semibold mb-3">Core Expertise</h3>
+                            <div class="flex flex-wrap gap-2">
+                                ${data.expertise.map(exp => `<span class="px-3 py-1 rounded-lg bg-charcoal text-gray-200 text-xs font-mono border border-white/10">${exp}</span>`).join('')}
+                            </div>
+                        </div>
+
+                        <div class="pt-6 border-t border-white/10">
+                            <h3 class="text-xs uppercase tracking-[0.25em] text-gold font-semibold mb-3">Direct Engagement</h3>
+                            <p class="text-xs text-gray-400 font-light mb-4">To retain this specialist for advisory or institutional board service, contact the Secretariat.</p>
+                            <a href="mailto:${data.contact}" class="w-full py-3 rounded-xl bg-gradient-to-r from-gold-dark via-gold to-gold-light text-black text-xs uppercase tracking-widest font-bold block text-center shadow-gold-glow hover:opacity-90 transition">
+                                <i class="fa-solid fa-envelope mr-2"></i> Retain Specialist
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const modal = document.getElementById('resume-modal');
+            const dialog = document.getElementById('modal-dialog');
+            
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            dialog.classList.remove('scale-95');
+            dialog.classList.add('animate-magnify');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close Resume Modal Function
+        function closeResumeModal() {
+            const modal = document.getElementById('resume-modal');
+            const dialog = document.getElementById('modal-dialog');
+            
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            dialog.classList.add('scale-95');
+            dialog.classList.remove('animate-magnify');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal on background click
+        document.getElementById('resume-modal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('resume-modal')) {
+                closeResumeModal();
+            }
+        });
+
+        // Close on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeResumeModal();
+            }
+        });
+
+        // Form Submit Handler
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            showToast("Transmission Successful", "Your dossier has been securely encrypted and dispatched to the Council.");
+            e.target.reset();
+        }
+
+        // Newsletter Handler
+        function handleNewsletter(e) {
+            e.preventDefault();
+            showToast("Subscription Confirmed", "You have been added to the private quarterly bulletin distribution.");
+            e.target.reset();
+        }
+
+        // Toast notification helper
+        function showToast(title, desc) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-title').innerText = title;
+            document.getElementById('toast-desc').innerText = desc;
+
+            toast.classList.remove('translate-y-32', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-32', 'opacity-0');
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
